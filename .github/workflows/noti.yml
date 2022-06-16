@@ -14,5 +14,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Notify Slack and send eMail
-        run: echo "Notify message"
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: echo $(ls -a)
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
