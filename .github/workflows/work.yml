@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Telegram Notifications
-      run: echo "${{ github.event.workflow_run }}"
+      run: echo "${{ github.event.workflow_run.workflow.name }}"
