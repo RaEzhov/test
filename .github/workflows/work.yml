@@ -1,0 +1,14 @@
+name: Telegram Notifications
+
+on: 
+  workflow_run:
+    workflows: ["CI build", "Deploy server"]
+    types:
+      - completed
+
+jobs:
+  messages:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Telegram Notifications
+      run: echo "${{ github.event.workflow_run.workflow }}"
