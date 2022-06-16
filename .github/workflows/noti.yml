@@ -1,6 +1,5 @@
-name: CI notify
+name: Deploy server
 
-# Only trigger, when the build workflow succeeded
 on:
   workflow_run:
     workflows: ["CI build"]
@@ -12,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      - name: executing remote ssh commands using ssh key
+      - name: Updating server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
@@ -22,14 +22,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
-          script: echo $(ls -a)
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
+          script: |
+            cd ./server
+            docker stop battleship-server
+            docker rm battleship-server
+            docker pull raezhov/battleship-server:master
+            docker-compose up -d --build
